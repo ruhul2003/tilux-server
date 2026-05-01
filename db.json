@@ -1,0 +1,124 @@
+{
+  "tiles": [
+    {
+      "id": 1,
+      "name": "Carrara White Marble",
+      "category": "Marble",
+      "size": "600x600 mm",
+      "finish": "Polished",
+      "price": 45,
+      "stock": 120,
+      "rating": 4.8,
+      "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6",
+      "description": "Elegant white marble tile with subtle gray veining for luxury interiors."
+    },
+    {
+      "id": 2,
+      "name": "Midnight Black Granite",
+      "category": "Granite",
+      "size": "800x800 mm",
+      "finish": "Glossy",
+      "price": 52,
+      "stock": 85,
+      "rating": 4.7,
+      "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c",
+      "description": "Premium black granite tile with a modern glossy appearance."
+    },
+    {
+      "id": 3,
+      "name": "Oak Wood Texture Tile",
+      "category": "Wood Finish",
+      "size": "1200x200 mm",
+      "finish": "Matte",
+      "price": 38,
+      "stock": 150,
+      "rating": 4.6,
+      "image": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85",
+      "description": "Natural oak wood-inspired tile perfect for warm and cozy interiors."
+    },
+    {
+      "id": 4,
+      "name": "Concrete Urban Grey",
+      "category": "Concrete Finish",
+      "size": "600x1200 mm",
+      "finish": "Matte",
+      "price": 48,
+      "stock": 95,
+      "rating": 4.5,
+      "image": "https://images.unsplash.com/photo-1494526585095-c41746248156",
+      "description": "Minimal urban concrete-style tile designed for contemporary spaces."
+    },
+    {
+      "id": 5,
+      "name": "Royal Beige Stone",
+      "category": "Stone",
+      "size": "600x600 mm",
+      "finish": "Honed",
+      "price": 41,
+      "stock": 110,
+      "rating": 4.7,
+      "image": "https://images.unsplash.com/photo-1484154218962-a197022b5858",
+      "description": "Classic beige stone tile delivering timeless sophistication."
+    },
+    {
+      "id": 6,
+      "name": "Blue Ocean Mosaic",
+      "category": "Mosaic",
+      "size": "300x300 mm",
+      "finish": "Glossy",
+      "price": 55,
+      "stock": 60,
+      "rating": 4.9,
+      "image": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85",
+      "description": "Vibrant blue mosaic tile ideal for bathrooms and feature walls."
+    },
+    {
+      "id": 7,
+      "name": "Classic Travertine",
+      "category": "Travertine",
+      "size": "400x400 mm",
+      "finish": "Natural",
+      "price": 44,
+      "stock": 130,
+      "rating": 4.6,
+      "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f",
+      "description": "Natural travertine tile with earthy textures and premium durability."
+    },
+    {
+      "id": 8,
+      "name": "Golden Onyx Premium",
+      "category": "Onyx",
+      "size": "800x1600 mm",
+      "finish": "Polished",
+      "price": 78,
+      "stock": 40,
+      "rating": 5.0,
+      "image": "https://images.unsplash.com/photo-1616594039964-3a6d0d9d8b9b",
+      "description": "Luxury golden onyx tile with dramatic translucent patterns."
+    },
+    {
+      "id": 9,
+      "name": "Terrazzo Modern Mix",
+      "category": "Terrazzo",
+      "size": "600x600 mm",
+      "finish": "Matte",
+      "price": 47,
+      "stock": 100,
+      "rating": 4.5,
+      "image": "https://images.unsplash.com/photo-1600566752355-35792bedcfea",
+      "description": "Stylish terrazzo tile blending modern aesthetics with durability."
+    },
+    {
+      "id": 10,
+      "name": "Nordic Snow Ceramic",
+      "category": "Ceramic",
+      "size": "300x600 mm",
+      "finish": "Satin",
+      "price": 29,
+      "stock": 200,
+      "rating": 4.4,
+      "image": "https://images.unsplash.com/photo-1600210492493-0946911123ea",
+      "description": "Clean and minimalist ceramic tile inspired by Scandinavian design."
+    }
+  ]
+}
