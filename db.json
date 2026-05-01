@@ -85,17 +85,17 @@
       "inStock": true
     },
     {
-      "id": "tile_008",
-      "title": "Golden Onyx Premium",
-      "description": "Luxury golden onyx tile with dramatic translucent patterns.",
-      "image": "https://images.unsplash.com/photo-1616594039964-3a6d0d9d8b9b",
-      "category": "onyx",
-      "price": 78.99,
-      "currency": "USD",
-      "dimensions": "80x160 cm",
-      "material": "Onyx",
-      "inStock": false
-    },
+  "id": "tile_008",
+  "title": "Golden Onyx Premium",
+  "description": "Luxury golden onyx tile with dramatic translucent patterns.",
+  "image": "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg",
+  "category": "onyx",
+  "price": 78.99,
+  "currency": "USD",
+  "dimensions": "80x160 cm",
+  "material": "Onyx",
+  "inStock": false
+},
     {
       "id": "tile_009",
       "title": "Terrazzo Modern Mix",
