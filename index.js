@@ -356,6 +356,91 @@ app.delete('/api/tiles/:id', authenticateToken, verifyShopOwner, async (req, res
     }
 });
 
+// ==================== ORDERS ENDPOINTS ====================
+
+// PLACE AN ORDER
+app.post('/api/orders', authenticateToken, async (req, res) => {
+    try {
+        const { tileId, quantity } = req.body;
+        if (!tileId) {
+            return res.status(400).json({ message: 'Tile ID is required' });
+        }
+        const tilesCol = db.collection('Tiles');
+        let tileQuery = ObjectId.isValid(tileId) ? { _id: new ObjectId(tileId) } : { id: tileId };
+        const tile = await tilesCol.findOne(tileQuery);
+        if (!tile) {
+            return res.status(404).json({ message: 'Tile not found' });
+        }
+
+        const newOrder = {
+            buyerId: req.user.id,
+            buyerEmail: req.user.email,
+            tileId: tileId,
+            tileTitle: tile.title,
+            tileImage: tile.image,
+            tilePrice: tile.price,
+            quantity: Number(quantity) || 1,
+            totalPrice: tile.price * (Number(quantity) || 1),
+            status: 'Pending',
+            createdAt: new Date()
+        };
+
+        const ordersCol = db.collection('Orders');
+        const result = await ordersCol.insertOne(newOrder);
+        res.status(201).json({
+            message: 'Order placed successfully',
+            orderId: result.insertedId.toString()
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error placing order' });
+    }
+});
+
+// GET ORDERS (Buyer: only self, Shop Owner: all)
+app.get('/api/orders', authenticateToken, async (req, res) => {
+    try {
+        const ordersCol = db.collection('Orders');
+        let query = {};
+        if (req.user.role !== 'shop_owner') {
+            query = { buyerId: req.user.id };
+        }
+        const orders = await ordersCol.find(query).sort({ createdAt: -1 }).toArray();
+        
+        const formattedOrders = orders.map(o => ({
+            id: o._id.toString(),
+            ...o,
+            _id: undefined
+        }));
+        res.json(formattedOrders);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error fetching orders' });
+    }
+});
+
+// UPDATE ORDER STATUS (Shop Owner only)
+app.patch('/api/orders/:id', authenticateToken, verifyShopOwner, async (req, res) => {
+    try {
+        const { status } = req.body;
+        if (!status) {
+            return res.status(400).json({ message: 'Status is required' });
+        }
+        
+        const ordersCol = db.collection('Orders');
+        const query = ObjectId.isValid(req.params.id) ? { _id: new ObjectId(req.params.id) } : { id: req.params.id };
+        
+        const result = await ordersCol.updateOne(query, { $set: { status } });
+        if (result.matchedCount === 0) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+        res.json({ message: 'Order status updated successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error updating order' });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
