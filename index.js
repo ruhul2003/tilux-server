@@ -112,9 +112,23 @@ app.post('/api/auth/signup', async (req, res) => {
         };
         
         const result = await usersCol.insertOne(newUser);
+        
+        const token = jwt.sign(
+            { id: result.insertedId.toString(), email: newUser.email, role: newUser.role },
+            JWT_SECRET,
+            { expiresIn: '7d' }
+        );
+        
         res.status(201).json({ 
             message: 'User created successfully', 
-            userId: result.insertedId 
+            token,
+            user: {
+                id: result.insertedId,
+                name: newUser.name,
+                email: newUser.email,
+                role: newUser.role,
+                image: newUser.image
+            }
         });
     } catch (err) {
         console.error(err);
@@ -145,7 +159,7 @@ app.post('/api/auth/login', async (req, res) => {
         
         // Sign JWT
         const token = jwt.sign(
-            { id: user._id, email: user.email, role: user.role },
+            { id: user._id.toString(), email: user.email, role: user.role },
             JWT_SECRET,
             { expiresIn: '7d' }
         );
@@ -170,7 +184,8 @@ app.post('/api/auth/login', async (req, res) => {
 app.get('/api/auth/profile', authenticateToken, async (req, res) => {
     try {
         const usersCol = db.collection('Users');
-        const user = await usersCol.findOne({ _id: new ObjectId(req.user.id) });
+        const query = ObjectId.isValid(req.user.id) ? { _id: new ObjectId(req.user.id) } : { _id: req.user.id };
+        const user = await usersCol.findOne(query);
         
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
