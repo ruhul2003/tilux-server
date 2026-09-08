@@ -20,21 +20,38 @@ app.use(express.json());
 
 let db;
 let client;
+let dbPromise = null;
 
-// Connect to MongoDB
-async function connectDB() {
-    try {
-        client = new MongoClient(MONGO_URI);
-        await client.connect();
-        db = client.db(DB_NAME);
-        console.log(`Connected to MongoDB database: ${DB_NAME}`);
-    } catch (err) {
-        console.error('Failed to connect to MongoDB', err);
-        process.exit(1);
+async function getDB() {
+    if (db) return db;
+    if (!dbPromise) {
+        const mongoUri = process.env.MONGODB_URI;
+        if (!mongoUri) {
+            throw new Error('MONGODB_URI environment variable is missing in Vercel environment variables.');
+        }
+        client = new MongoClient(mongoUri);
+        dbPromise = client.connect().then(() => {
+            db = client.db(DB_NAME);
+            console.log(`Connected to MongoDB database: ${DB_NAME}`);
+            return db;
+        }).catch(err => {
+            dbPromise = null;
+            throw err;
+        });
     }
+    return dbPromise;
 }
 
-connectDB();
+// Middleware to ensure DB connection before handling requests
+app.use(async (req, res, next) => {
+    try {
+        await getDB();
+        next();
+    } catch (err) {
+        console.error('Database connection error:', err.message);
+        res.status(500).json({ message: 'Database connection failed', error: err.message });
+    }
+});
 
 // Middleware to authenticate JWT
 const authenticateToken = (req, res, next) => {
@@ -441,6 +458,10 @@ app.patch('/api/orders/:id', authenticateToken, verifyShopOwner, async (req, res
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}
+
+module.exports = app;
